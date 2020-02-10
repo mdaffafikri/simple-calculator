@@ -1,0 +1,223 @@
+<html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.min.js"></script>
+<body>
+
+<div id="mydiv"></div>
+
+<script type="text/babel">
+
+class Kalkulator extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            num1: null,
+            num2: null,
+            num3: null,
+            total: null,
+            checked: 0,
+            arr: [null,null,null]
+        }
+    }
+
+    componentDidMount(){
+        anime({ //muter
+            targets: '.judul',
+            translateY: -10,
+            loop: true,
+            direction: 'alternate',
+            easing: 'easeInOutSine',
+        })
+    }
+
+    onChangeNum = (e) => {
+        if (e.target.id === 'input1') {
+            this.setState({
+                num1: e.target.value,
+            })             
+        }
+        else if (e.target.id === 'input2') {
+            this.setState({
+                num2: e.target.value, 
+            })
+        }
+        else if (e.target.id === 'input3') {
+            this.setState({
+                num3: e.target.value, 
+            })
+        }
+    }
+
+    checking = (e) => {
+        const { arr } = this.state;
+
+        if(e.target.checked){
+            arr[Number(e.target.id)]=Number(e.target.value)
+
+            this.setState({
+                checked: this.state.checked+1,
+                arr //update arr
+            })
+        }
+
+        else if (!e.target.checked){
+            arr[Number(e.target.id)]=null
+            this.setState({
+                checked: this.state.checked-1,
+                arr
+            })
+        }
+    }
+
+    jumlah = () => {
+        let {arr} = this.state
+        if(this.state.checked < 2){
+            alert('ceklis lebih dari 1!')
+        }
+        else{
+            for(var i=0; i<=2; i++){
+                if(arr[i]=== null ){
+                   arr.splice([i],1)
+                }
+                else{
+                    console.log('skip')
+                }
+            }
+        this.setState({ total: arr.reduce((a, b) => a + b) })
+        this.uncheck()
+        }
+    }
+
+    kurang = () => {
+        let {arr} = this.state
+        if(this.state.checked < 2){
+            alert('ceklis lebih dari 1!')
+        }
+        else{
+            for(var i=0; i<=2; i++){
+                if(arr[i]=== null ){
+                   arr.splice([i],1)
+                }
+                else{
+                    console.log('skip')
+                }
+            }
+        this.setState({ total: arr.reduce((a, b) => a - b) })
+        this.uncheck()
+        }
+    }
+
+    kali = () => {
+        let {arr} = this.state
+        if(this.state.checked < 2){
+            alert('ceklis lebih dari 1!')
+        }
+        else{
+            for(var i=0; i<=2; i++){
+                if(arr[i]=== null ){
+                   arr.splice([i],1)
+                }
+                else{
+                    console.log('skip')
+                }
+            }
+        this.setState({ total: arr.reduce((a, b) => a * b) })
+        this.uncheck()
+        }
+    }
+
+    bagi = () => {
+        let {arr} = this.state
+        if(this.state.checked < 2){
+            alert('ceklis lebih dari 1!')
+        }
+        else{
+            for(var i=0; i<=2; i++){
+                if(arr[i]=== null ){
+                   arr.splice([i],1)
+                }
+                else{
+                    console.log('skip')
+                }
+            }
+        this.setState({ total: arr.reduce((a, b) => a / b) })
+        this.uncheck()
+        }
+    }
+
+    uncheck = () => {
+        var x = document.querySelectorAll('.checkbox');
+        this.setState({
+            checked: 0,
+            arr: [null, null, null]
+        })
+        for(var i=0;i<=2;i++){
+            x[i].checked= false;
+        }
+    }
+
+    render(){
+        return(
+            <div  style={divstyle}>
+            <h1 class='judul'>Simple Calculator</h1>
+            
+            <input onChange={this.onChangeNum} style={inputStyle} type="number" id="input1" value={this.state.num1}/>
+            <input className="checkbox" type="checkbox" id='0' value={this.state.num1} onChange={this.checking}/><br/>
+
+            <input onChange={this.onChangeNum} style={inputStyle} type="number" id="input2" value={this.state.num2}/>
+            <input className="checkbox" type="checkbox" id='1' value={this.state.num2} onChange={this.checking} /><br/>
+
+            <input onChange={this.onChangeNum} style={inputStyle} type="number" id="input3" value={this.state.num3}/>
+            <input className="checkbox" type="checkbox" id='2' value={this.state.num3} onChange={this.checking}/><br/>
+            
+            <div className='btn-group-justified'>
+                <button className='m-2 btn btn-primary' onClick={this.jumlah}><strong>+</strong></button>
+                <button className='m-2 btn btn-secondary' onClick={this.kurang}><strong>-</strong></button>
+                <button className='m-2 btn btn-danger' onClick={this.kali}><strong>x</strong></button>
+                <button className='m-2 btn btn-warning' onClick={this.bagi}><strong>/</strong></button>
+            </div>
+
+            <br/>
+
+            <br/>
+                <div style={hasilStyle} className='row'>
+                        <div class="col-sm">
+                            <strong> Hasil = </strong>
+                        </div>
+                        <div class="col-sm">
+                            <strong>{this.state.total}</strong>
+                        </div>
+                </div>
+            
+            </div>
+        )
+    }
+}
+
+const divstyle = {
+    margin: 'auto',
+    paddingTop: 200,
+    textAlign: 'center'
+}
+
+const inputStyle = {
+    margin: 5
+}
+
+const hasilStyle = {
+    margin: 'auto',
+    borderTop: 'solid black 3px',
+    maxWidth: 200
+}
+
+
+ReactDOM.render(<Kalkulator/>, document.getElementById('mydiv'))
+</script>
+
+</body>
+</html>
