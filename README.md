@@ -1,2 +1,2 @@
 # simple-calculator
-Simple calculator with ReactJS cdn
+Simple calculator with ReactJS cdn.
